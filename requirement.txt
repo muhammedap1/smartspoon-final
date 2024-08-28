@@ -1,0 +1,24 @@
+streamlit
+google-generativeai
+python-dotenv
+
+
+
+
+
+"""elif page == "Cook With ME":
+        st.markdown("<p style='font-size: 18px; font-weight: bold;'>Ask About Your recipe Here.</p>", unsafe_allow_html=True)
+        
+        # Display chat history
+        for message in st.session_state.messages:
+            st.chat_message(message['role']).markdown(message['content'])
+
+        prompt = st.chat_input('Pass your prompt here')
+
+        if prompt:
+            st.chat_message('user').markdown(prompt)
+            st.session_state.messages.append({'role': 'user', 'content': prompt})
+
+            response_text = get_gemini_response(prompt)
+            st.chat_message('assistant').markdown(response_text)
+            st.session_state.messages.append({'role': 'assistant', 'content': response_text})""""
