@@ -23,8 +23,10 @@ def load_or_preprocess_data(data):
 # Load or preprocess the data
 vectorizer, svd, scaler, knn = load_or_preprocess_data(df)
 
+API_KEY = 'AIzaSyBGLHeEYjGUS7x8AY_yulj5PZwGEcolHF4'
+
 def initialize_chatbot():
-    genai.configure(api_key=os.getenv('google_api_key'))
+    genai.configure(api_key=API_KEY)
     model = genai.GenerativeModel('gemini-pro')
 
     if 'chat' not in st.session_state:
@@ -48,7 +50,7 @@ def enhance_cooking_directions(directions):
                 enhanced_directions += part.text
 
         return enhanced_directions
-    except genai.generative_models.BrokenResponseError:
+    except genai.GenerativeModel.BrokenResponseError:
         last_send, last_received = chat.rewind()
         return "I'm sorry, there was an issue processing the cooking directions. Please try again."
 
@@ -97,7 +99,7 @@ def get_gemini_response(question):
                 full_response_text += part.text
 
         return full_response_text
-    except genai.generative_models.BrokenResponseError:
+    except genai.GenerativeModel.BrokenResponseError:
         last_send, last_received = chat.rewind()
         return "I'm sorry, there was an issue with your request. Please try again."
 
