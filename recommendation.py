@@ -7,8 +7,29 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.decomposition import TruncatedSVD
 import os
 
-# Load your dataset
-recipe_data = pd.read_csv("merged_data.csv")
+def load_or_process_data(file_path):
+    dataset_cache = 'dataset_cache.pkl'
+    preprocess_cache = 'preprocessed_data.pkl'
+
+    # Check if the dataset cache exists
+    if os.path.exists(dataset_cache):
+        print("Loading cached dataset...")
+        data = joblib.load(dataset_cache)
+    else:
+        print("Loading and caching dataset...")
+        data = pd.read_csv(file_path)
+        joblib.dump(data, dataset_cache)
+
+    # Check if the preprocessing cache exists
+    if os.path.exists(preprocess_cache):
+        print("Loading cached preprocessing components...")
+        vectorizer, svd, scaler, knn = joblib.load(preprocess_cache)
+    else:
+        print("Preprocessing and caching components...")
+        vectorizer, svd, scaler, knn = preprocess_data(data)
+        joblib.dump((vectorizer, svd, scaler, knn), preprocess_cache)
+
+    return data, vectorizer, svd, scaler, knn
 
 def preprocess_data(data):
     # Vectorize the ingredients list
@@ -30,18 +51,6 @@ def preprocess_data(data):
     knn = NearestNeighbors(n_neighbors=3, metric='euclidean')
     knn.fit(X_combined)
 
-    # Save the preprocessed components to cache
-    joblib.dump((vectorizer, svd, scaler, knn), 'preprocessed_data.pkl')
-
-    return vectorizer, svd, scaler, knn
-
-def load_or_preprocess_data(data):
-    # Check if the cache file exists
-    if os.path.exists('preprocessed_data.pkl'):
-        vectorizer, svd, scaler, knn = joblib.load('preprocessed_data.pkl')
-    else:
-        vectorizer, svd, scaler, knn = preprocess_data(data)
-
     return vectorizer, svd, scaler, knn
 
 def recommend_recipes(input_features, vectorizer, svd, scaler, knn, data):
@@ -58,14 +67,16 @@ def recommend_recipes(input_features, vectorizer, svd, scaler, knn, data):
     recommendations = data.iloc[indices[0]]
     return recommendations[['recipe_name', 'prep_time', 'ingredients_list']].head(5)
 
-# Load or preprocess the data
-vectorizer, svd, scaler, knn = load_or_preprocess_data(recipe_data)
+# Load or process the data
+recipe_data, vectorizer, svd, scaler, knn = load_or_process_data("merged_data.csv")
 
-# Example input features for recommendation
-input_features = [30, 200, 10, 30, 20, 50, 300, 5, "chicken, garlic, onion, tomato, pepper"]
+# Example usage
+if __name__ == "__main__":
+    # Example input features for recommendation
+    input_features = [30, 200, 10, 30, 20, 50, 300, 5, "chicken, garlic, onion, tomato, pepper"]
 
-# Get recommendations
-recommendations = recommend_recipes(input_features, vectorizer, svd, scaler, knn, recipe_data)
+    # Get recommendations
+    recommendations = recommend_recipes(input_features, vectorizer, svd, scaler, knn, recipe_data)
 
-# Display the recommendations
-print(recommendations)
+    # Display the recommendations
+    print(recommendations)

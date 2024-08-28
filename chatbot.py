@@ -5,25 +5,37 @@ import pandas as pd
 import joblib
 from recommendation import preprocess_data
 
-# Load your dataset
-df = pd.read_csv('merged_data.csv')
+# Cache dataset and preprocessing components
+def load_or_process_data(file_path):
+    dataset_cache = 'dataset_cache.pkl'
+    preprocess_cache = 'preprocessed_data.pkl'
 
-# Cache preprocessing components
-def load_or_preprocess_data(data):
-    # Check if the cache file exists
-    cache_file = 'preprocessed_data.pkl'
-    if os.path.exists(cache_file):
-        vectorizer, svd, scaler, knn = joblib.load(cache_file)
+    # Check if the dataset cache exists
+    if os.path.exists(dataset_cache):
+        print("Loading cached dataset...")
+        df = joblib.load(dataset_cache)
     else:
-        vectorizer, svd, scaler, knn = preprocess_data(data)
-        joblib.dump((vectorizer, svd, scaler, knn), cache_file)
+        print("Loading and caching dataset...")
+        df = pd.read_csv(file_path)
+        joblib.dump(df, dataset_cache)
 
-    return vectorizer, svd, scaler, knn
+    # Check if the preprocessing cache exists
+    if os.path.exists(preprocess_cache):
+        print("Loading cached preprocessing components...")
+        preprocessed_data = joblib.load(preprocess_cache)
+    else:
+        print("Preprocessing and caching components...")
+        preprocessed_data = preprocess_data(df)
+        joblib.dump(preprocessed_data, preprocess_cache)
 
-# Load or preprocess the data
-vectorizer, svd, scaler, knn = load_or_preprocess_data(df)
+    return (df,) + preprocessed_data
+
+# Load or process the data
+df, vectorizer, svd, scaler, knn = load_or_process_data('merged_data.csv')
 
 API_KEY = 'AIzaSyBGLHeEYjGUS7x8AY_yulj5PZwGEcolHF4'
+
+# ... rest of the code remains the same ...
 
 def initialize_chatbot():
     genai.configure(api_key=API_KEY)
@@ -54,6 +66,7 @@ def enhance_cooking_directions(directions):
         last_send, last_received = chat.rewind()
         return "I'm sorry, there was an issue processing the cooking directions. Please try again."
 
+
 def get_gemini_response(question):
     # Access conversation history
     conversation_history = st.session_state.messages
@@ -70,7 +83,6 @@ def get_gemini_response(question):
 
     This process continues until the recipe is fully prepared, ensuring the user is comfortable and supported throughout the cooking experience.
 """
-
 
     for message in conversation_history:
         prompt += f"{message['role']}: {message['content']}\n"
@@ -105,5 +117,3 @@ def get_gemini_response(question):
 
 # Initialize the chatbot on app start
 initialize_chatbot()
-
-
