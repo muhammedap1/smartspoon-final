@@ -35,7 +35,6 @@ df, vectorizer, svd, scaler, knn = load_or_process_data('merged_data.csv')
 
 API_KEY = 'AIzaSyBGLHeEYjGUS7x8AY_yulj5PZwGEcolHF4'
 
-# ... rest of the code remains the same ...
 
 def initialize_chatbot():
     genai.configure(api_key=API_KEY)
@@ -71,17 +70,21 @@ def get_gemini_response(question):
     # Access conversation history
     conversation_history = st.session_state.messages
 
-    # Build the prompt including history
+    # prompt including history
     prompt = f"""
     You are an interactive recipe assistant.
 
-    **Conversation History:**\n
+**Conversation History:**\n
 
-    You will assist the user in preparing a recipe step by step. First, provide the list of ingredients needed for the recipe. Once the user confirms they have the ingredients, ask if they would like to start cooking.
+You will assist the user in preparing a recipe step by step. 
 
-    After the user confirms, guide them through the preparation process by providing one step at a time. After each step, ask the user if they have completed the step and whether they would like to continue or need any further assistance.
+1. First, provide the list of ingredients needed for the recipe. Once the user confirms they have the ingredients, ask if they would like to start cooking.
+   
+2. After the user confirms, guide them through the preparation process by providing one step at a time. After each step, ask the user if they have completed the step and whether they would like to continue or need any further assistance.
 
-    This process continues until the recipe is fully prepared, ensuring the user is comfortable and supported throughout the cooking experience.
+3. This process continues until the recipe is fully prepared, ensuring the user is comfortable and supported throughout the cooking experience.
+
+If the user asks a question that is not related to the recipe or if there are any spelling errors, ask the user for clarification or correct spelling before proceeding. Only start the preparation when the user confirms they are ready to begin.
 """
 
     for message in conversation_history:

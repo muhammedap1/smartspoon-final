@@ -70,13 +70,4 @@ def recommend_recipes(input_features, vectorizer, svd, scaler, knn, data):
 # Load or process the data
 recipe_data, vectorizer, svd, scaler, knn = load_or_process_data("merged_data.csv")
 
-# Example usage
-if __name__ == "__main__":
-    # Example input features for recommendation
-    input_features = [30, 200, 10, 30, 20, 50, 300, 5, "chicken, garlic, onion, tomato, pepper"]
 
-    # Get recommendations
-    recommendations = recommend_recipes(input_features, vectorizer, svd, scaler, knn, recipe_data)
-
-    # Display the recommendations
-    print(recommendations)

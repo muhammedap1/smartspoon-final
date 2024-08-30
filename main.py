@@ -27,7 +27,6 @@ cooking_tips = [
 def main():
     st.set_page_config(page_title="SmartSpoon🥄🍳👩‍🍳", layout="wide")
     
-    # Custom CSS
     st.markdown("""
     <style>
     .big-font {
