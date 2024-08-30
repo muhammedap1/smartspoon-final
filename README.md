@@ -4,16 +4,13 @@
 
 # SmartSpoon 🍴
 
-**SmartSpoon** is an AI-Powered Cooking Assistant that helps users discover and prepare recipes based on their ingredients, dietary preferences, and nutritional needs. The application provides step-by-step cooking instructions, preparation methods, and alternative suggestions, all through a conversational interface powered by a custom-built chatbot.
+**SmartSpoon** is an AI-Powered Cooking Assistant that helps users discover and prepare recipes based on their ingredients, dietary preferences, and nutritional needs. The application provides step-by-step cooking instructions, preparation methods, and alternative suggestions, all through a conversational interface powered by a chatbot.
 
 ## Features
 
 - **Recipe Recommendation**: Get personalized recipe suggestions based on your available ingredients and dietary preferences.
 - **Recipe of the Day**: Receive a randomly selected recipe each time you use the app.
-- **Step-by-Step Cooking Instructions**: Follow detailed cooking directions with the help of the chatbot, including vessel and ingredient suggestions.
 - **Meal Planner**: Create a meal plan that can be downloaded as a CSV file.
-- **Nutritional Information**: Receive insights into the nutritional value of your meals, including calories, fats, proteins, and more.
-- **Ingredient Management**: Easily manage your ingredients by adding them to a list or removing them when no longer needed.
 - **Interactive Chatbot**: The AI-powered chatbot interacts with users to provide cooking directions, answer queries, and offer alternatives.
 - **About Page**: Learn more about the app and its functionalities.
 
@@ -29,7 +26,6 @@ During the development of SmartSpoon, various machine learning models and techni
 ## Project Structure
 
 - **`Statics/`**: Contains static files and assets used in the application.
-- **`__pycache__/`**: Python cache directory.
 - **`.env`**: Environment variables configuration file.
 - **`README.md`**: This file, which provides an overview of the project.
 - **`chatbot.py`**: Contains the implementation of the chatbot, including conversation logic and interaction with the user.
