@@ -99,5 +99,3 @@ If you have any questions or feedback, feel free to reach out:
 - **Muhammed** - [muhammedap0752@gmail.com](mailto:your-email@example.com)
 
 ---
-
-You can now copy and paste this into your README file. Don't forget to replace `"yourusername"` and `"your-email@example.com"` with your actual GitHub username and contact email.
